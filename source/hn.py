@@ -1,6 +1,7 @@
 import json
 import urllib2
 import time
+import HTMLParser
 from xml.etree import ElementTree as ET
 
 
@@ -30,10 +31,11 @@ def generate_xml(items):
 
 
 def parse_item(item):
+    h = HTMLParser.HTMLParser()
     return {
         'uid': '%s%s' % (item['item_id'], time.time()),
         'arg': item['url'],
-        'title': item['title'],
+        'title': h.unescape(item['title']),
         'subtitle': item['description'],
         'icon': 'icon.png'
     }
